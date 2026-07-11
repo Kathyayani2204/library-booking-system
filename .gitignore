@@ -34,3 +34,4 @@ build/
 build-log.txt
 run-log.txt
 *.log
+application.properties
