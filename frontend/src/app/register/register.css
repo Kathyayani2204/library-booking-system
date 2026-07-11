@@ -1,0 +1,32 @@
+.register-container {
+  width: 350px;
+  margin: 50px auto;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.register-container h2 {
+  text-align: center;
+}
+
+.register-container div {
+  margin-bottom: 15px;
+}
+
+.register-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.register-container input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.register-container button {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+}

@@ -1,0 +1,70 @@
+<header class="navbar">
+
+  <div class="navbar-container">
+
+    <a
+      routerLink="/books"
+      class="brand"
+    >
+      Library Booking System
+    </a>
+
+    <nav class="nav-links">
+
+      <a routerLink="/books">
+        Books
+      </a>
+
+      <a
+        *ngIf="isLoggedIn()"
+        routerLink="/my-reservations"
+      >
+        My Reservations
+      </a>
+
+      <a
+        *ngIf="userRole() === 'ADMIN'"
+        routerLink="/admin"
+      >
+        Admin Dashboard
+      </a>
+
+      <a
+        *ngIf="!isLoggedIn()"
+        routerLink="/login"
+      >
+        Login
+      </a>
+
+      <a
+        *ngIf="!isLoggedIn()"
+        routerLink="/register"
+      >
+        Register
+      </a>
+
+      <span
+        *ngIf="isLoggedIn()"
+        class="welcome"
+      >
+        Welcome, {{ userName() }}
+      </span>
+
+      <button
+        *ngIf="isLoggedIn()"
+        type="button"
+        class="logout-button"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+
+    </nav>
+
+  </div>
+
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

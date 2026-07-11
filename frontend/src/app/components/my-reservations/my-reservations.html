@@ -1,0 +1,146 @@
+<div class="page-container">
+
+  <div class="page-header">
+
+    <div>
+      <h1>My Reservations</h1>
+
+      <p>
+        View and manage your borrowed books.
+      </p>
+    </div>
+
+    <div class="reservation-count">
+      {{ reservations().length }} Reservations
+    </div>
+
+  </div>
+
+  <div
+    *ngIf="message()"
+    class="message-success"
+  >
+    {{ message() }}
+  </div>
+
+  <div
+    *ngIf="errorMessage()"
+    class="message-error"
+  >
+    {{ errorMessage() }}
+  </div>
+
+  <div class="card">
+
+    <p
+      *ngIf="reservations().length === 0"
+      class="empty-message"
+    >
+      You currently have no reservations.
+    </p>
+
+    <div
+      class="table-wrapper"
+      *ngIf="reservations().length > 0"
+    >
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Book</th>
+            <th>Author</th>
+            <th>Issue Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="
+              let reservation of reservations()
+            "
+          >
+
+            <td>
+              {{ reservation.id }}
+            </td>
+
+            <td>
+              <strong>
+                {{ reservation.book?.title }}
+              </strong>
+            </td>
+
+            <td>
+              {{ reservation.book?.author }}
+            </td>
+
+            <td>
+              {{ reservation.issueDate }}
+            </td>
+
+            <td>
+              {{ reservation.returnDate }}
+            </td>
+
+            <td>
+
+              <span
+                class="status-active"
+                *ngIf="
+                  reservation.status === 'ACTIVE'
+                "
+              >
+                Active
+              </span>
+
+              <span
+                class="status-returned"
+                *ngIf="
+                  reservation.status === 'RETURNED'
+                "
+              >
+                Returned
+              </span>
+
+            </td>
+
+            <td>
+
+              <button
+                *ngIf="
+                  reservation.status === 'ACTIVE'
+                "
+                type="button"
+                class="btn btn-primary"
+                (click)="returnBook(reservation.id)"
+              >
+                Return Book
+              </button>
+
+              <span
+                *ngIf="
+                  reservation.status === 'RETURNED'
+                "
+              >
+                Completed
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

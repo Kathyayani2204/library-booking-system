@@ -1,0 +1,129 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <div>
+      <h1>Library Books</h1>
+      <p>
+        Browse and reserve available books.
+      </p>
+    </div>
+
+    <div class="book-count">
+      {{ books().length }} Books
+    </div>
+  </div>
+
+  <div class="card">
+
+    <div class="search-section">
+
+      <input
+        type="text"
+        placeholder="Search by title or author"
+        [(ngModel)]="keyword"
+      >
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="searchBooks()"
+      >
+        Search
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="clearSearch()"
+      >
+        Clear
+      </button>
+
+    </div>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Availability</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let book of books()">
+
+            <td>
+              {{ book.id }}
+            </td>
+
+            <td>
+              <strong>
+                {{ book.title }}
+              </strong>
+            </td>
+
+            <td>
+              {{ book.author }}
+            </td>
+
+            <td>
+              {{ book.isbn }}
+            </td>
+
+            <td>
+
+              <span
+                class="status available"
+                *ngIf="book.available"
+              >
+                Available
+              </span>
+
+              <span
+                class="status unavailable"
+                *ngIf="!book.available"
+              >
+                Not Available
+              </span>
+
+            </td>
+
+            <td>
+
+              <button
+                *ngIf="book.available"
+                type="button"
+                class="btn btn-success"
+                (click)="reserveBook(book.id)"
+              >
+                Reserve
+              </button>
+
+              <span
+                *ngIf="!book.available"
+                class="not-available-text"
+              >
+                Unavailable
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,123 +1,296 @@
-# Library Booking System – REST API
+# Library Booking System
 
-A backend service that lets users search, view, and reserve books from a library, and lets admins manage book inventory and reservations — built with Spring Boot and secured with JWT authentication.
+A full-stack web application for managing library books and reservations.
+
+The system allows users to register, log in, browse books, search for books, reserve available books, view their reservations, and return books. Administrators can manage books and view all reservations.
+
+---
 
 ## Features
 
-- User registration and login (JWT-based authentication)
-- Role-based access control (USER / ADMIN)
-- Browse and search books
-- Book reservation system with availability checks (no double-booking)
-- Admin book management (add, update, delete)
-- View reservation history (per user and admin-wide)
-- Clean, consistent error responses (no raw stack traces exposed to clients)
+### User Features
 
-## Tech Stack
+- User registration
+- User login
+- JWT-based authentication
+- Browse all books
+- Search books by title or author
+- View book availability
+- Reserve available books
+- View personal reservations
+- Return reserved books
+- Logout
 
-- **Backend:** Spring Boot
-- **Database:** MySQL
-- **Authentication:** JWT (JSON Web Token)
-- **Build Tool:** Maven
-- **Testing:** Postman
+### Admin Features
 
-## Actors
+- Admin login
+- Role-based authorization
+- Admin dashboard
+- Add new books
+- Update existing books
+- Delete books
+- View all books
+- View all reservations
 
-**User**
-- Registers and logs in
-- Searches for books
-- Makes reservations
+---
 
-**Admin**
-- Manages books (CRUD)
-- Views and manages all reservations
+## Technologies Used
 
-## API Endpoints
+### Backend
 
-### Authentication
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login and receive a JWT token |
+- Java
+- Spring Boot
+- Spring Security
+- JWT Authentication
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Maven
 
-### Books
-| Method | Endpoint | Description | Access |
-|---|---|---|---|
-| GET | `/api/books` | Get all books | USER / ADMIN |
-| GET | `/api/books/{id}` | Get a specific book by ID | USER / ADMIN |
-| POST | `/api/books` | Add a new book | ADMIN only |
-| PUT | `/api/books/{id}` | Update a book | ADMIN only |
-| DELETE | `/api/books/{id}` | Delete a book | ADMIN only |
+### Frontend
 
-### Reservations
-| Method | Endpoint | Description | Access |
-|---|---|---|---|
-| POST | `/api/reservations` | Reserve a book | USER / ADMIN |
-| GET | `/api/users/{id}/reservations` | Get a user's reservation history | USER / ADMIN |
-| GET | `/api/admin/reservations` | Get all reservations | ADMIN only |
+- Angular
+- TypeScript
+- HTML
+- CSS
 
-## Database Schema
+### Tools
 
-**User**
-`id, name, email, password, role (USER / ADMIN)`
+- Visual Studio Code
+- MySQL Workbench
+- Postman
+- Git
+- GitHub
 
-**Book**
-`id, title, author, isbn, available (true/false)`
+---
 
-**Reservation**
-`id, user_id, book_id, issue_date, return_date, status (ACTIVE / RETURNED)`
+## Project Structure
+
+```text
+library-booking-system/
+│
+├── backend/                 # Spring Boot backend
+│   ├── .mvn/
+│   ├── src/
+│   ├── pom.xml
+│   ├── mvnw
+│   └── mvnw.cmd
+│
+├── frontend/                # Angular frontend
+│   ├── src/
+│   ├── package.json
+│   └── angular.json
+│
+├── Postman/                 # Postman API collection
+├── .gitattributes
+├── .gitignore
+└── README.md
+```
+
+---
+
+## Prerequisites
+
+Before running the project, install:
+
+- Java
+- Maven or use the included Maven Wrapper
+- Node.js and npm
+- Angular CLI
+- MySQL
+
+---
+
+## Database Setup
+
+The application uses MySQL.
+
+The default database name is:
+
+```text
+library_db
+```
+
+The database can be created automatically when the backend starts.
+
+The backend configuration uses environment variables for sensitive values such as the MySQL password and JWT secret.
+
+---
+
+## Backend Configuration
+
+Navigate to the backend directory:
+
+```bash
+cd backend
+```
+
+The application requires the following environment variables:
+
+- `DB_PASSWORD` — MySQL password
+- `JWT_SECRET` — secure secret used for JWT signing
+
+### Windows PowerShell
+
+Set your MySQL password:
+
+```powershell
+$env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
+```
+
+Generate and set a secure random JWT secret:
+
+```powershell
+$bytes = New-Object byte[] 64
+$rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+$rng.GetBytes($bytes)
+$env:JWT_SECRET = [Convert]::ToBase64String($bytes)
+$rng.Dispose()
+```
+
+> Do not commit real passwords or JWT secrets to GitHub.
+
+---
+
+## Run the Backend
+
+From the `backend` directory:
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+The backend runs on:
+
+```text
+http://localhost:8080
+```
+
+The backend provides REST API endpoints under:
+
+```text
+http://localhost:8080/api
+```
+
+---
+
+## Run the Frontend
+
+Open a new terminal and navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the Angular development server:
+
+```bash
+ng serve
+```
+
+Open the application in a browser at:
+
+```text
+http://localhost:4200
+```
+
+---
+
+## Authentication and Authorization
+
+The application uses JWT-based authentication.
+
+Two roles are supported:
+
+- `USER`
+- `ADMIN`
+
+### USER
+
+A user can:
+
+- Browse books
+- Search books
+- Reserve available books
+- View personal reservations
+- Return books
+
+### ADMIN
+
+An administrator can:
+
+- Access the Admin Dashboard
+- Add books
+- Edit books
+- Delete books
+- View all reservations
+
+---
 
 ## Security
 
-- JWT-based authentication protects all endpoints.
-- Role-based authorization restricts admin-only actions (adding/updating/deleting books, viewing all reservations) to users with the `ADMIN` role — verified to return `403 Forbidden` for regular users.
-- Business-rule errors (duplicate email, unavailable book, book with active reservations, etc.) return clean `400 Bad Request` responses with a readable `{"error": "..."}` message instead of raw server errors.
+Sensitive configuration values are not stored directly in the source code.
 
-## Running Locally
+The backend uses environment variables:
 
-### Prerequisites
-- Java 17+
-- Maven
-- MySQL Server running locally
-
-### Setup
-
-1. Clone the repository:
-```bash
-   git clone https://github.com/Kathyayani2204/library-booking-system.git
-   cd library-booking-system
+```text
+DB_PASSWORD
+JWT_SECRET
 ```
 
-2. Create the database in MySQL:
-```sql
-   CREATE DATABASE library_db;
+The `application.properties` file references these environment variables instead of containing real credentials.
+
+---
+
+## API Testing
+
+Postman can be used to test the backend REST APIs.
+
+Postman-related files are stored in:
+
+```text
+Postman/
 ```
 
-3. Update `src/main/resources/application.properties` with your MySQL username/password:
-```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/library_db
-   spring.datasource.username=your_mysql_username
-   spring.datasource.password=your_mysql_password
+---
+
+## Running the Complete Application
+
+### Terminal 1 — Backend
+
+```powershell
+cd backend
+
+$env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
+
+$bytes = New-Object byte[] 64
+$rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+$rng.GetBytes($bytes)
+$env:JWT_SECRET = [Convert]::ToBase64String($bytes)
+$rng.Dispose()
+
+.\mvnw.cmd spring-boot:run
 ```
 
-4. Run the application:
-```bash
-   mvn spring-boot:run
+### Terminal 2 — Frontend
+
+```powershell
+cd frontend
+ng serve
 ```
 
-5. The API will be available at `http://localhost:8080`.
+Then open:
 
-## Testing with Postman
+```text
+http://localhost:4200
+```
 
-A ready-to-import Postman collection is included in the [`Postman/`](./Postman) folder, covering all endpoints above with example request bodies for both USER and ADMIN roles.
+---
 
-To use it:
-1. Open Postman → **Import** → select `Postman/Library Booking System.postman_collection.json`.
-2. Set the `baseUrl` collection variable (defaults to `http://localhost:8080`).
-3. Register/login to get a JWT, then save it into the `token` (regular user) or `adminToken` (admin) collection variables.
 
-## Future Scope
-
-- Frontend integration (React/Angular)
-- Book return and fine management
-- Reminder emails for return deadlines
-- QR code scanning for physical books

@@ -1,0 +1,191 @@
+<h2>Admin Dashboard</h2>
+
+<p *ngIf="errorMessage()">
+  {{ errorMessage() }}
+</p>
+
+<p *ngIf="message()">
+  {{ message() }}
+</p>
+
+<div *ngIf="authService.getRole() === 'ADMIN'">
+
+  <h3>
+    {{ editingBookId === null ? 'Add Book' : 'Update Book' }}
+  </h3>
+
+  <form (ngSubmit)="saveBook()">
+
+    <div>
+      <label>Title</label>
+      <input
+        type="text"
+        name="title"
+        [(ngModel)]="title"
+        required
+      >
+    </div>
+
+    <br>
+
+    <div>
+      <label>Author</label>
+      <input
+        type="text"
+        name="author"
+        [(ngModel)]="author"
+        required
+      >
+    </div>
+
+    <br>
+
+    <div>
+      <label>ISBN</label>
+      <input
+        type="text"
+        name="isbn"
+        [(ngModel)]="isbn"
+        required
+      >
+    </div>
+
+    <br>
+
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          name="available"
+          [(ngModel)]="available"
+        >
+        Available
+      </label>
+    </div>
+
+    <br>
+
+    <button type="submit">
+      {{ editingBookId === null ? 'Add Book' : 'Update Book' }}
+    </button>
+
+    <button
+      *ngIf="editingBookId !== null"
+      type="button"
+      (click)="resetForm()">
+      Cancel
+    </button>
+
+  </form>
+
+  <hr>
+
+  <h3>Manage Books</h3>
+
+  <table border="1">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Available</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let book of books()">
+
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.isbn }}</td>
+
+        <td>
+          {{ book.available ? 'Yes' : 'No' }}
+        </td>
+
+        <td>
+
+          <button
+            type="button"
+            (click)="editBook(book)">
+            Edit
+          </button>
+
+          <button
+            type="button"
+            (click)="deleteBook(book.id)">
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <hr>
+
+  <h3>All Reservations</h3>
+
+  <p>
+    Total reservations:
+    {{ reservations().length }}
+  </p>
+
+  <table
+    border="1"
+    *ngIf="reservations().length > 0">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Book</th>
+        <th>Issue Date</th>
+        <th>Return Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let reservation of reservations()">
+
+        <td>
+          {{ reservation.id }}
+        </td>
+
+        <td>
+          {{ reservation.user?.name }}
+        </td>
+
+        <td>
+          {{ reservation.book?.title }}
+        </td>
+
+        <td>
+          {{ reservation.issueDate }}
+        </td>
+
+        <td>
+          {{ reservation.returnDate }}
+        </td>
+
+        <td>
+          {{ reservation.status }}
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

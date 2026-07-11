@@ -1,37 +1,56 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# =========================
+# Backend - Java / Maven
+# =========================
+backend/target/
+*.class
+*.jar
+*.war
+*.ear
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Keep Maven wrapper JAR
+!backend/.mvn/wrapper/maven-wrapper.jar
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# =========================
+# Frontend - Angular / Node
+# =========================
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.cache/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+!.env.example
 
-### VS Code ###
+# =========================
+# IDE
+# =========================
+.idea/
 .vscode/
-build-log.txt
-run-log.txt
+*.iml
+.classpath
+.project
+.settings/
+
+# =========================
+# Operating System
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Logs
+# =========================
 *.log
-application.properties
+logs/
+
+# =========================
+# Temporary Files
+# =========================
+*.tmp
+*.temp
+*.swp

@@ -1,0 +1,62 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header p {
+  color: #64748b;
+}
+
+.book-count {
+  padding: 10px 16px;
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.search-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.search-section input {
+  flex: 1;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.available {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.unavailable {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.not-available-text {
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-section {
+    flex-direction: column;
+  }
+}
